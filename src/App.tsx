@@ -10,18 +10,18 @@ import { formatDate } from "./date";
 
 function App() {
   const z = useZero<Schema>();
-  const [users] = useQuery(z.query.user, {
+  const [users] = useQuery(z.query.users, {
     ttl: "forever",
   });
 
-  const [mediums] = useQuery(z.query.medium, {
+  const [mediums] = useQuery(z.query.mediums, {
     ttl: "forever",
   });
 
   const [filterUser, setFilterUser] = useState<string>("");
   const [filterText, setFilterText] = useState<string>("");
 
-  const all = z.query.message;
+  const all = z.query.messages;
   const [allMessages] = useQuery(all, {
     ttl: "forever",
   });
@@ -32,7 +32,7 @@ function App() {
     .orderBy("timestamp", "desc");
 
   if (filterUser) {
-    filtered = filtered.where("senderID", filterUser);
+    filtered = filtered.where("senderId", filterUser);
   }
 
   if (filterText) {
@@ -50,13 +50,13 @@ function App() {
       return false;
     }
     const index = randInt(allMessages.length);
-    z.mutate.message.delete({ id: allMessages[index].id });
+    z.mutate.messages.delete({ id: allMessages[index].id });
 
     return true;
   };
 
   const addRandomMessage = () => {
-    z.mutate.message.insert(randomMessage(users, mediums));
+    z.mutate.messages.insert(randomMessage(users, mediums));
     return true;
   };
 
@@ -121,7 +121,7 @@ function App() {
       return;
     }
     const body = prompt("Edit message", prev);
-    z.mutate.message.update({
+    z.mutate.messages.update({
       id,
       body: body ?? prev,
     });
@@ -280,9 +280,16 @@ function App() {
                 <td align="left">{message.body}</td>
                 <td align="right">{formatDate(message.timestamp)}</td>
                 <td
-                  onMouseDown={(e) =>
-                    editMessage(e, message.id, message.senderID, message.body)
-                  }
+                  onMouseDown={(e) => {
+                    if (message.senderId) {
+                      editMessage(
+                        e,
+                        message.id,
+                        message.senderId,
+                        message.body
+                      );
+                    }
+                  }}
                 >
                   ✏️
                 </td>

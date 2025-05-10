@@ -3,5 +3,12 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
+  ],
+
+  "include": [
+    "vite.config.ts",
+    "./api",
+    "drizzle.config.ts",
+    "drizzle-zero.config.ts"
   ]
 }

@@ -6,66 +6,62 @@
 // for more complex examples, including many-to-many.
 
 import {
-  createSchema,
+  ANYONE_CAN,
   definePermissions,
   ExpressionBuilder,
-  Row,
-  ANYONE_CAN,
-  table,
-  string,
-  boolean,
-  number,
-  relationships,
   PermissionsConfig,
+  Row,
 } from "@rocicorp/zero";
+import { schema, type Schema } from "./generated/zero-schema.gen";
 
-const message = table("message")
-  .columns({
-    id: string(),
-    senderID: string().from("sender_id"),
-    mediumID: string().from("medium_id"),
-    body: string(),
-    timestamp: number(),
-  })
-  .primaryKey("id");
+export { schema, type Schema };
 
-const user = table("user")
-  .columns({
-    id: string(),
-    name: string(),
-    partner: boolean(),
-  })
-  .primaryKey("id");
+// const message = table("message")
+//   .columns({
+//     id: string(),
+//     senderID: string().from("sender_id"),
+//     mediumID: string().from("medium_id"),
+//     body: string(),
+//     timestamp: number(),
+//   })
+//   .primaryKey("id");
 
-const medium = table("medium")
-  .columns({
-    id: string(),
-    name: string(),
-  })
-  .primaryKey("id");
+// const user = table("user")
+//   .columns({
+//     id: string(),
+//     name: string(),
+//     partner: boolean(),
+//   })
+//   .primaryKey("id");
 
-const messageRelationships = relationships(message, ({ one }) => ({
-  sender: one({
-    sourceField: ["senderID"],
-    destField: ["id"],
-    destSchema: user,
-  }),
-  medium: one({
-    sourceField: ["mediumID"],
-    destField: ["id"],
-    destSchema: medium,
-  }),
-}));
+// const medium = table("medium")
+//   .columns({
+//     id: string(),
+//     name: string(),
+//   })
+//   .primaryKey("id");
 
-export const schema = createSchema({
-  tables: [user, medium, message],
-  relationships: [messageRelationships],
-});
+// const messageRelationships = relationships(message, ({ one }) => ({
+//   sender: one({
+//     sourceField: ["senderID"],
+//     destField: ["id"],
+//     destSchema: user,
+//   }),
+//   medium: one({
+//     sourceField: ["mediumID"],
+//     destField: ["id"],
+//     destSchema: medium,
+//   }),
+// }));
 
-export type Schema = typeof schema;
-export type Message = Row<typeof schema.tables.message>;
-export type Medium = Row<typeof schema.tables.medium>;
-export type User = Row<typeof schema.tables.user>;
+// export const schema = createSchema({
+//   tables: [user, medium, message],
+//   relationships: [messageRelationships],
+// });
+
+export type Message = Row<typeof schema.tables.messages>;
+export type Medium = Row<typeof schema.tables.mediums>;
+export type User = Row<typeof schema.tables.users>;
 
 // The contents of your decoded JWT.
 type AuthData = {
@@ -80,21 +76,21 @@ export const permissions = definePermissions<AuthData, Schema>(schema, () => {
 
   const allowIfMessageSender = (
     authData: AuthData,
-    { cmp }: ExpressionBuilder<Schema, "message">
-  ) => cmp("senderID", "=", authData.sub ?? "");
+    { cmp }: ExpressionBuilder<Schema, "messages">
+  ) => cmp("senderId", "=", authData.sub ?? "");
 
   return {
-    medium: {
+    mediums: {
       row: {
         select: ANYONE_CAN,
       },
     },
-    user: {
+    users: {
       row: {
         select: ANYONE_CAN,
       },
     },
-    message: {
+    messages: {
       row: {
         // anyone can insert
         insert: ANYONE_CAN,

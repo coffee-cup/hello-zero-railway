@@ -18,5 +18,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts", "./api"]
+  "include": [
+    "vite.config.ts",
+    "./api",
+    "drizzle.config.ts",
+    "drizzle-zero.config.ts"
+  ]
 }

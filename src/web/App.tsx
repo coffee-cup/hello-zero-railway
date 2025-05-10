@@ -2,11 +2,11 @@ import { useState, MouseEvent, useRef } from "react";
 import Cookies from "js-cookie";
 import { useQuery, useZero } from "@rocicorp/zero/react";
 import { escapeLike } from "@rocicorp/zero";
-import { schema, Schema } from "./schema";
-import { randomMessage } from "./test-data";
-import { randInt } from "./rand";
-import { useInterval } from "./use-interval";
-import { formatDate } from "./date";
+import { schema, Schema } from "../zero/zero-schema.gen";
+import { randomMessage } from "./helpers/test-data";
+import { randInt } from "./helpers/rand";
+import { useInterval } from "./hooks/use-interval";
+import { formatDate } from "./helpers/date";
 
 function App() {
   const z = useZero<Schema>();

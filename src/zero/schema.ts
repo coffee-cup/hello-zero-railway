@@ -12,52 +12,9 @@ import {
   PermissionsConfig,
   Row,
 } from "@rocicorp/zero";
-import { schema, type Schema } from "./generated/zero-schema.gen";
+import { schema, type Schema } from "./zero-schema.gen";
 
 export { schema, type Schema };
-
-// const message = table("message")
-//   .columns({
-//     id: string(),
-//     senderID: string().from("sender_id"),
-//     mediumID: string().from("medium_id"),
-//     body: string(),
-//     timestamp: number(),
-//   })
-//   .primaryKey("id");
-
-// const user = table("user")
-//   .columns({
-//     id: string(),
-//     name: string(),
-//     partner: boolean(),
-//   })
-//   .primaryKey("id");
-
-// const medium = table("medium")
-//   .columns({
-//     id: string(),
-//     name: string(),
-//   })
-//   .primaryKey("id");
-
-// const messageRelationships = relationships(message, ({ one }) => ({
-//   sender: one({
-//     sourceField: ["senderID"],
-//     destField: ["id"],
-//     destSchema: user,
-//   }),
-//   medium: one({
-//     sourceField: ["mediumID"],
-//     destField: ["id"],
-//     destSchema: medium,
-//   }),
-// }));
-
-// export const schema = createSchema({
-//   tables: [user, medium, message],
-//   relationships: [messageRelationships],
-// });
 
 export type Message = Row<typeof schema.tables.messages>;
 export type Medium = Row<typeof schema.tables.mediums>;

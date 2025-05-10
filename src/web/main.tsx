@@ -4,7 +4,7 @@ import App from "./App.tsx";
 import "./index.css";
 import { ZeroProvider } from "@rocicorp/zero/react";
 import { Zero } from "@rocicorp/zero";
-import { schema } from "./schema.ts";
+import { schema } from "../zero/zero-schema.gen.ts";
 import Cookies from "js-cookie";
 import { decodeJwt } from "jose";
 
@@ -12,10 +12,15 @@ const encodedJWT = Cookies.get("jwt");
 const decodedJWT = encodedJWT && decodeJwt(encodedJWT);
 const userID = decodedJWT?.sub ? (decodedJWT.sub as string) : "anon";
 
+const ZERO_SERVER = process.env.BUN_PUBLIC_ZERO_CACHE_SERVER;
+if (!ZERO_SERVER) {
+  throw new Error("ZERO_SERVER is not set");
+}
+
 const z = new Zero({
   userID,
   auth: () => encodedJWT,
-  server: import.meta.env.VITE_PUBLIC_SERVER,
+  server: ZERO_SERVER,
   schema,
   kvStore: "idb",
 });

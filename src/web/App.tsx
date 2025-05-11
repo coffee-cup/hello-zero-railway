@@ -173,7 +173,7 @@ function App() {
 
   // If initial sync hasn't completed, these can be empty.
   if (!users.length || !mediums.length) {
-    return null;
+    return <div>No users or mediums. Run seed.</div>;
   }
 
   const user = users.find((user) => user.id === z.userID)?.name ?? "anon";

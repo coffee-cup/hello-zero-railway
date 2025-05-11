@@ -18,5 +18,3 @@
     "types": ["bun-types"]
   }
 }
-
-// "include": ["vite.config.ts", "drizzle.config.ts", "drizzle-zero.config.ts"]

@@ -31,7 +31,3 @@ export const messagesRelations = relations(messages, ({ one }) => ({
     references: [mediums.id],
   }),
 }));
-
-// export const mediumsRelations = relations(mediums, ({ many }) => ({
-//   messages: many(messages),
-// }));

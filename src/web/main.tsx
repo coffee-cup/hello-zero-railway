@@ -23,12 +23,17 @@ const z = new Zero({
   server: ZERO_SERVER,
   schema,
   kvStore: "idb",
+  logLevel: "debug",
 });
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <ZeroProvider zero={z}>
-      <App />
-    </ZeroProvider>
-  </StrictMode>
-);
+const Root = () => {
+  return (
+    <StrictMode>
+      <ZeroProvider zero={z}>
+        <App />
+      </ZeroProvider>
+    </StrictMode>
+  );
+};
+
+createRoot(document.getElementById("root")!).render(<Root />);

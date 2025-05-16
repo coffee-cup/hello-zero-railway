@@ -12,7 +12,7 @@ const encodedJWT = Cookies.get("jwt");
 const decodedJWT = encodedJWT && decodeJwt(encodedJWT);
 const userID = decodedJWT?.sub ? (decodedJWT.sub as string) : "anon";
 
-const ZERO_SERVER = process.env.BUN_PUBLIC_ZERO_CACHE_SERVER;
+const ZERO_SERVER = import.meta.env.VITE_ZERO_CACHE_SERVER;
 if (!ZERO_SERVER) {
   throw new Error("ZERO_SERVER is not set");
 }
@@ -30,6 +30,7 @@ const Root = () => {
   return (
     <StrictMode>
       <ZeroProvider zero={z}>
+        hello
         <App />
       </ZeroProvider>
     </StrictMode>

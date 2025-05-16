@@ -30,7 +30,8 @@ const Root = () => {
   return (
     <StrictMode>
       <ZeroProvider zero={z}>
-        hello
+        <h1 className="text-4xl mb-4 font-bold text-blue-500">hello</h1>
+
         <App />
       </ZeroProvider>
     </StrictMode>
